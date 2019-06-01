@@ -1,7 +1,6 @@
 <#
 .SYNOPSIS
-    Module for interacting with Azure Automation using the ARM REST API, with specialised functions for
-    WorkDay user provisioning.
+    Module for interacting with Azure Automation using the ARM REST API.
     Designed to be invoked from an Azure web app or function app with managed identity enabled.
 .DESCRIPTION
 
@@ -39,7 +38,7 @@ function New-AzureAutomationRunbookJob {
     $apiVersion = '2017-05-15-preview'
     switch ($PSBoundParameters.ContainsValue($JobNamePrefix)) {
         $true { $JobName = '{0}-{1}' -f $JobNamePrefix, ([guid]::NewGuid() -split '-')[0] }
-        Default {$JobName = [guid]::NewGuid().Guid}
+        Default { $JobName = [guid]::NewGuid().Guid }
     }
     $runbook = [PSCustomObject]@{
         Name = $RunbookName
