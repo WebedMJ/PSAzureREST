@@ -64,6 +64,7 @@ function Add-AzureTableEntity {
         return $Error[0]
         exit 1
     }
+    return $response
 }
 
 function Merge-AzureTableEntity {
@@ -86,6 +87,7 @@ function Merge-AzureTableEntity {
         return $Error[0]
         exit 1
     }
+    return $response
 }
 
 function Remove-AzureTableEntity {
@@ -113,4 +115,5 @@ function Remove-AzureTableEntity {
         return $Error[0]
         exit 1
     }
+    return $response
 }
