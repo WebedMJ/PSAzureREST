@@ -85,7 +85,7 @@ function Get-ACIContainerGroups {
 function New-ACIContainerGroup {
     <#
     .SYNOPSIS
-        Gets the list of ACI container groups in a subscription and/or resource group.
+        Creates or updates an ACI container group in a subscription and/or resource group.
         See https://docs.microsoft.com/en-us/rest/api/container-instances/containergroups
     .LINK
         https://github.com/WebedMJ/General/tree/master/PowerShell/Azure/Modules/AzureACIREST
