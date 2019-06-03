@@ -243,7 +243,8 @@ function Start-ACIContainerGroup {
     .LINK
         https://github.com/WebedMJ/General/tree/master/PowerShell/Azure/Modules/AzureACIREST
     #>
-    [CMDLetBinding([String])]
+    [CMDLetBinding()]
+    [OutputType([String])]
     param (
         [Parameter(Mandatory = $true)]
         [string]$Name,
