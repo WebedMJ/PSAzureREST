@@ -10,31 +10,31 @@
 @{
 
     # Script module or binary module file associated with this manifest.
-    RootModule        = 'AzureACIREST.psm1'
+    RootModule           = 'AzureACIREST.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.0.1'
+    ModuleVersion        = '1.0.1'
 
     # Supported PSEditions
-    # CompatiblePSEditions = @()
+    CompatiblePSEditions = 'Desktop'
 
     # ID used to uniquely identify this module
-    GUID              = '6090565f-36be-41ee-9018-106b0c8c790d'
+    GUID                 = '6090565f-36be-41ee-9018-106b0c8c790d'
 
     # Author of this module
-    Author            = 'Ed Haynes'
+    Author               = 'Ed Haynes'
 
     # Company or vendor of this module
-    # CompanyName = 'Unknown'
+    CompanyName          = ''
 
     # Copyright statement for this module
     # Copyright = '(c) 2018 Ed Haynes. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'Module for interacting with Azure Container Instances (ACI) using the ARM REST API. Designed to be invoked from an Azure web/function app or Azure Automation.'
+    Description          = 'Module for interacting with Azure Container Instances (ACI) using the ARM REST API. Designed to be invoked from an Azure web/function app or Azure Automation.'
 
     # Minimum version of the Windows PowerShell engine required by this module
-    PowerShellVersion = '5.1'
+    PowerShellVersion    = '5.1'
 
     # Name of the Windows PowerShell host required by this module
     # PowerShellHostName = ''
@@ -70,17 +70,17 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = 'Get-ACIContainerGroups', 'New-ACIContainerGroup', 'Start-ACIContainerGroup',
+    FunctionsToExport    = 'Get-ACIContainerGroups', 'New-ACIContainerGroup', 'Start-ACIContainerGroup',
     'Remove-ACIContainerGroup'
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport   = @()
+    CmdletsToExport      = @()
 
     # Variables to export from this module
     # VariablesToExport = '*'
 
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    AliasesToExport   = @()
+    AliasesToExport      = @()
 
     # DSC resources to export from this module
     # DscResourcesToExport = @()
@@ -92,16 +92,12 @@
     # FileList = @()
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
-    PrivateData       = @{
+    PrivateData          = @{
 
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags       = @(
-                'Azure Container Instances',
-                'ACI',
-                'ARM REST API'
-            )
+            Tags       = 'Azure Container Instances', 'ACI', 'ARM REST API'
 
             # A URL to the license for this module.
             # LicenseUri = ''
