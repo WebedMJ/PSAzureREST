@@ -5,6 +5,7 @@
 #
 # Generated on: 31/05/2019
 #
+# Removed AzureRESTAuth module requirement to allow for Azure Automation import.
 
 @{
 
@@ -51,9 +52,7 @@
     # ProcessorArchitecture = ''
 
     # Modules that must be imported into the global environment prior to importing this module
-    RequiredModules   = @(
-        'AzureRESTAuth'
-    )
+    # RequiredModules   = @()
 
     # Assemblies that must be loaded prior to importing this module
     # RequiredAssemblies = @()
