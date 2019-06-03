@@ -107,7 +107,6 @@ function New-ACIContainerGroup {
                 @{
                     Name        = 'var2'
                     secureValue = 'var2value'
-
                 }
                 @{
                     Name        = 'var3'
