@@ -2,9 +2,7 @@
 .SYNOPSIS
     UPDATED TO USE Az MODULE INSTEAD OF AzureRM module in Automation Accounts!
 
-    Module for interacting with Azure Automation using the ARM REST API, with specialised functions for
-    WorkDay user provisioning.
-    Designed to be invoked from an Azure web app or function app with managed identity enabled.
+   Functions for authenticating to Azure REST APIs
 .DESCRIPTION
 
 .LINK
