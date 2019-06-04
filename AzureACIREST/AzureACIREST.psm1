@@ -131,7 +131,7 @@ function New-ACIContainerGroup {
         [Parameter(Mandatory = $true, ParameterSetName = "ContainerParams")]
         [string]$Image,
         [Parameter(Mandatory = $true, ParameterSetName = "ContainerParams")]
-        [int16]$CPU,
+        [int]$CPU,
         [Parameter(Mandatory = $true, ParameterSetName = "ContainerParams")]
         [string]$MemoryGB,
         [Parameter(Mandatory = $true, ParameterSetName = "ContainerParams")]

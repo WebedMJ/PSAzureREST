@@ -13,7 +13,7 @@
     RootModule        = 'AzureACIREST.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.0.1'
+    ModuleVersion     = '1.0.2'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -25,7 +25,7 @@
     Author            = 'Ed Haynes'
 
     # Company or vendor of this module
-    CompanyName       = ''
+    # CompanyName       = ''
 
     # Copyright statement for this module
     # Copyright         = '(c) 2019 EHaynes. All rights reserved.'
@@ -34,7 +34,7 @@
     Description       = 'Module for interacting with Azure Container Instances (ACI) using the ARM REST API. Designed to be invoked from an Azure web/function app or Azure Automation.'
 
     # Minimum version of the Windows PowerShell engine required by this module
-    PowerShellVersion = '5.1'
+    PowerShellVersion = '5.0'
 
     # Name of the Windows PowerShell host required by this module
     # PowerShellHostName = ''
@@ -70,7 +70,7 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = 'Get-ACIContainerGroups', 'New-ACIContainerGroup', 'Start-ACIContainerGroup', 'Remove-ACIContainerGroup'
+    FunctionsToExport = 'Get-ACIContainerGroups', 'Start-ACIContainerGroup', 'Remove-ACIContainerGroup', 'New-ACIContainerGroup'
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     CmdletsToExport   = @()
@@ -96,7 +96,11 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags       = 'Azure Container Instances', 'ACI', 'ARM REST API'
+            Tags       = @(
+                'Azure Container Instances',
+                'ACI',
+                'ARM REST API'
+            )
 
             # A URL to the license for this module.
             # LicenseUri = ''

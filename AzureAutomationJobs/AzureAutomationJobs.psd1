@@ -33,7 +33,7 @@
     Description       = 'Module for interacting with Azure Automation using the ARM REST API. Designed to be invoked from an Azure web app or function app.'
 
     # Minimum version of the Windows PowerShell engine required by this module
-    PowerShellVersion = '5.1'
+    PowerShellVersion = '5.0'
 
     # Name of the Windows PowerShell host required by this module
     # PowerShellHostName = ''
