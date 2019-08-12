@@ -72,7 +72,7 @@
     FunctionsToExport    = @(
         'Get-AzureTableAuthorization',
         'Get-AzureTableEntities',
-        'Invoke-AzureTableUpsertEntity',
+        'Add-AzureTableEntity',
         'Merge-AzureTableEntity',
         'Remove-AzureTableEntity'
     )
