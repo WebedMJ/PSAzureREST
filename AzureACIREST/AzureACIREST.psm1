@@ -18,7 +18,7 @@ function Get-ACIContainerGroups {
         https://github.com/WebedMJ/General/tree/master/PowerShell/Azure/Modules/AzureACIREST
     #>
     [CMDLetBinding()]
-    [OutputType("System.Collections.Hashtable")]
+    [OutputType("System.Object[]")]
     param (
         [Parameter(Mandatory = $true)]
         [string]$SubscriptionId,
@@ -114,12 +114,15 @@ function New-ACIContainerGroup {
                 }
             )
     .PARAMETER RestartPolicy
-        Restert policy of the container group, default is 'Always'.
+        Restart policy of the container group, default is 'Always'.
         Valid values are 'Always', 'OnFailure', 'Never'.
     .LINK
         https://github.com/WebedMJ/General/tree/master/PowerShell/Azure/Modules/AzureACIREST
     #>
-    [CMDLetBinding()]
+    [CMDLetBinding(
+        SupportsShouldProcess = $true,
+        ConfirmImpact = "Medium"
+    )]
     [OutputType("System.Collections.Hashtable")]
     param (
         [Parameter(Mandatory = $true, ParameterSetName = "ContainerParams")]
@@ -141,11 +144,11 @@ function New-ACIContainerGroup {
         [Parameter(Mandatory = $true)]
         [ValidateSet('Linux', 'Windows')]
         [string]$OSType,
-        [Parameter(Mandatory = $false, ParameterSetName = "ContainerParams")]
+        [Parameter(Mandatory = $true, ParameterSetName = "ContainerParams")]
         [string]$RegistryServer,
-        [Parameter(Mandatory = $false, ParameterSetName = "ContainerParams")]
+        [Parameter(Mandatory = $true, ParameterSetName = "ContainerParams")]
         [string]$RegistryUser,
-        [Parameter(Mandatory = $false, ParameterSetName = "ContainerParams")]
+        [Parameter(Mandatory = $true, ParameterSetName = "ContainerParams")]
         [securestring]$RegistryPassword,
         [Parameter(Mandatory = $false, ParameterSetName = "ContainerParams")]
         [ValidateSet('Always', 'OnFailure', 'Never')]
@@ -202,7 +205,9 @@ function New-ACIContainerGroup {
     switch ($AzureAutomationRunbook) {
         { [bool]$PSItem -eq $true } {
             $getjobssplat = @{
-                Headers     = Get-AzureRESTtoken -AzureResource 'ARM' -AzureIdentity 'AzureAutomationRunAs'
+                Headers     = if ($PSCmdlet.ShouldProcess("AzureAutomationRunAs", "Get-AzureRESTtoken")) {
+                    Get-AzureRESTtoken -AzureResource 'ARM' -AzureIdentity 'AzureAutomationRunAs'
+                }
                 Body        = $body
                 Uri         = $uri
                 ContentType = $ContentType
@@ -212,7 +217,9 @@ function New-ACIContainerGroup {
         }
         Default {
             $getjobssplat = @{
-                Headers     = Get-AzureRESTtoken -AzureResource 'ARM'
+                Headers     = if ($PSCmdlet.ShouldProcess("Default ManagedIdentity", "Get-AzureRESTtoken")) {
+                    Get-AzureRESTtoken -AzureResource 'ARM'
+                }
                 Body        = $body
                 Uri         = $uri
                 ContentType = $ContentType
@@ -221,10 +228,12 @@ function New-ACIContainerGroup {
             }
         }
     }
-    try {
-        $response = Invoke-RestMethod @getjobssplat
-    } catch {
-        $funcerror = $Error[0].Exception
+    if ($PSCmdlet.ShouldProcess($uri)) {
+        try {
+            $response = Invoke-RestMethod @getjobssplat
+        } catch {
+            $funcerror = $Error[0].Exception
+        }
     }
     if (!$funcerror) {
         Write-Verbose "Successfully created container group: $Name"
