@@ -6,7 +6,7 @@
 .DESCRIPTION
 
 .LINK
-    https://github.com/WebedMJ/General/tree/master/PowerShell/Azure/Modules/AzureRESTAuth
+    https://github.com/WebedMJ/PSAzureREST
 .NOTES
     Requires managed identity enabled on the app service and IAM permissions configured on the automation account.
 #>
