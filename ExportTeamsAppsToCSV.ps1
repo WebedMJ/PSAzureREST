@@ -30,14 +30,26 @@ try {
 
 $CSVFilePath = 'C:\Files\TeamsReports\TeamsByApp.csv'
 
-$UniqueApps = $AllTeamApps.TeamApps.AppName | Select-Object -Unique
-$UniqueApps.ForEach( {
-        $thisapp = $PSItem
-        $Teams = ($AllTeamApps | Where-Object { $_.TeamApps.AppName -imatch $thisapp }).TeamDisplayName
-        $TeamList = [PSCustomObject]@{
-            AppName   = $thisapp
-            AppId     = (($AllTeamApps.TeamApps).Where( { $_.AppName -imatch $thisapp }) | Select-Object -Unique).AppId
-            TeamNames = $Teams -join ','
-        }
-        $TeamList
-    }) | Export-Csv -Path $CSVFilePath -NoTypeInformation -Force
+if (!(Test-Path -Path $CSVFilePath -IsValid)) {
+    throw 'CSV file path not valid, aborting!'
+}
+try {
+    Write-Verbose "Exporting to $CSVFilePath"
+    $Directory = $CSVFilePath | Split-Path -Parent
+    if (!(Test-Path -Path $Directory)) {
+        New-Item -Path $Directory -ItemType Directory
+    }
+    $UniqueApps = $AllTeamApps.TeamApps.AppName | Select-Object -Unique
+    $UniqueApps.ForEach( {
+            $thisapp = $PSItem
+            $Teams = ($AllTeamApps | Where-Object { $_.TeamApps.AppName -imatch $thisapp }).TeamDisplayName
+            $TeamList = [PSCustomObject]@{
+                AppName   = $thisapp
+                AppId     = (($AllTeamApps.TeamApps).Where( { $_.AppName -imatch $thisapp }) | Select-Object -Unique).AppId
+                TeamNames = $Teams -join ','
+            }
+            $TeamList
+        }) | Export-Csv -Path $CSVFilePath -NoTypeInformation -Force
+} catch {
+    Write-Error -Message 'Error exporting to CSV!'
+}
