@@ -31,7 +31,7 @@ try {
 $CSVFilePath = 'C:\Files\TeamsReports\TeamsByApp.csv'
 
 $UniqueApps = $AllTeamApps.TeamApps.AppName | Select-Object -Unique
-$TeamsByApp = $UniqueApps.ForEach( {
+$UniqueApps.ForEach( {
         $thisapp = $PSItem
         $Teams = ($AllTeamApps | Where-Object { $_.TeamApps.AppName -imatch $thisapp }).TeamDisplayName
         $TeamList = [PSCustomObject]@{
