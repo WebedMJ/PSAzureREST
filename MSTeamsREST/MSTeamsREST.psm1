@@ -101,7 +101,8 @@ function Get-MSTeamApps {
     [OutputType("System.Object[]")]
     param (
         [Parameter(Mandatory = $true)]
-        [string]$TeamId,
+        [ValidateCount(1, 1)]
+        [string[]]$TeamId,
         [Parameter(Mandatory = $true)]
         [string]$ClientId,
         [Parameter(Mandatory = $true)]
@@ -111,6 +112,31 @@ function Get-MSTeamApps {
     )
 
     begin {
+        function Format-APIQuery {
+            param (
+                [Parameter(Mandatory = $true)]
+                [ValidateCount(1, 1)]
+                [string[]]$Id,
+                [Parameter(Mandatory = $false)]
+                [switch]$installedApps,
+                [Parameter(Mandatory = $false)]
+                [string]$APIVersion = $MSGraphVersion
+            )
+            switch ($installedApps) {
+                $true {
+                    $uripath = '{0}/teams/{1}/installedApps' -f $APIVersion, $Id[0]
+                    $uriquery = '?$expand=teamsAppDefinition'
+                    $builturi = [System.UriBuilder]::new('https', 'graph.microsoft.com', '443', $uripath, $uriquery)
+                    [uri]$uri = $builturi.Uri
+                }
+                Default {
+                    $uripath = '{0}/teams/{1}' -f $APIVersion, $Id[0]
+                    $builturi = [System.UriBuilder]::new('https', 'graph.microsoft.com', '443', $uripath)
+                    [uri]$uri = $builturi.Uri
+                }
+            }
+            return $uri
+        }
         $MSGraphVersion = 'beta'
         $tokensplat = @{
             AzureIdentity   = 'SharedKey'
@@ -123,13 +149,16 @@ function Get-MSTeamApps {
 
     process {
         try {
-            $uripath = '{0}/teams/{1}/installedApps' -f $MSGraphVersion, $TeamId
-            $uriquery = '?$expand=teamsAppDefinition'
-            $builturi = [System.UriBuilder]::new('https', 'graph.microsoft.com', '443', $uripath, $uriquery)
-            [uri]$uri = $builturi.Uri
+            $getteam = @{
+                Headers     = Get-AzureRESTtoken @tokensplat
+                Uri         = Format-APIQuery -Id $TeamId[0]
+                Method      = 'Get'
+                ErrorAction = 'Stop'
+            }
+            $getteamresponse = Invoke-RestMethod @getteam
             $getapps = @{
                 Headers     = Get-AzureRESTtoken @tokensplat
-                Uri         = $uri
+                Uri         = Format-APIQuery -Id $TeamId[0] -installedApps
                 Method      = 'Get'
                 ErrorAction = 'Stop'
             }
@@ -150,8 +179,9 @@ function Get-MSTeamApps {
     end {
         if (!$funcerror) {
             $TeamApps = [PSCustomObject]@{
-                TeamId   = $TeamId
-                TeamApps = $AppList
+                TeamId          = $TeamId[0]
+                TeamDisplayName = $getteamresponse.displayName
+                TeamApps        = $AppList
             }
             return $TeamApps
         } else {
