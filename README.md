@@ -1,2 +1,2 @@
 # PSAzureREST
-PowerShell for the Azure REST APIs
+PowerShell for Microsoft Graph and the Azure REST APIs
