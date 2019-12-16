@@ -108,7 +108,9 @@ function Get-MSTeamApps {
         [Parameter(Mandatory = $true)]
         [string]$ClientSecret,
         [Parameter(Mandatory = $true)]
-        [string]$AADTenantDomain
+        [string]$AADTenantDomain,
+        [Parameter(Mandatory = $false)]
+        [switch]$RawOutput
     )
 
     begin {
@@ -163,13 +165,19 @@ function Get-MSTeamApps {
                 ErrorAction = 'Stop'
             }
             $getappsresponse = Invoke-RestMethod @getapps
-            $AppList = foreach ($app in $getappsresponse.value) {
-                $AppDetails = [PSCustomObject]@{
-                    AppId      = $app.teamsAppDefinition.teamsAppId
-                    AppName    = $app.teamsAppDefinition.displayName
-                    AppVersion = $app.teamsAppDefinition.version
+            if ([bool]$RawOutput) {
+                $AppList = foreach ($app in $getappsresponse.value) {
+                    $app.teamsAppDefinition
                 }
-                $AppDetails
+            } else {
+                $AppList = foreach ($app in $getappsresponse.value) {
+                    $AppDetails = [PSCustomObject]@{
+                        AppId      = $app.teamsAppDefinition.teamsAppId
+                        AppName    = $app.teamsAppDefinition.displayName
+                        AppVersion = $app.teamsAppDefinition.version
+                    }
+                    $AppDetails
+                }
             }
         } catch {
             $funcerror = $Error[0].Exception
