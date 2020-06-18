@@ -66,7 +66,7 @@ function Get-AzureRESTtoken {
         [Parameter(Mandatory = $true, ParameterSetName = "SharedKey")]
         [string]$ClientId,
         [Parameter(Mandatory = $true, ParameterSetName = "SharedKey")]
-        [string]$ClientSecret,
+        [securestring]$ClientSecret,
         [Parameter(Mandatory = $true, ParameterSetName = "SharedKey")]
         [string]$AADTenantDomain
     )
@@ -118,6 +118,7 @@ function Get-AzureRESTtoken {
                     throw "Error: ClientId, ClientSecret and AADTenantDomain are required when using SharedKey"
                 }
                 $loginurl = 'https://login.microsoftonline.com'
+                $ClientSecretString = ConvertFrom-SecureString -SecureString $ClientSecret -AsPlainText
                 switch ($SharedKeyScope) {
                     'ARM' { $SKScopeURI = $ARMuri }
                     'MSGraph' { $SKScopeURI = "$MSGraphuri/.default" }
@@ -125,7 +126,7 @@ function Get-AzureRESTtoken {
                 $tokenbody = @{
                     client_id     = $ClientId
                     scope         = $SKScopeURI
-                    client_secret = $ClientSecret
+                    client_secret = $ClientSecretString
                     grant_type    = 'client_credentials'
                 }
                 $tokensplat = @{
