@@ -65,7 +65,7 @@ function New-NumberQMessage {
     )
 
     begin {
-        $query = '?messagettl={0}' -f $MessageTTLSeconds
+        $query = '?messagettl={0}&{1}' -f $MessageTTLSeconds, $SASString
         $uri = ([System.UriBuilder]::new('https', "$StorageAccount.queue.core.windows.net", '443', "$QueueName/messages", $query)).Uri
         $QueueMessageBytes = [Text.Encoding]::UTF8.GetBytes($MessageText)
         $QueueMessage = [Convert]::ToBase64String($QueueMessageBytes)
